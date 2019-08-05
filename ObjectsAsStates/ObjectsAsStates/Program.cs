@@ -13,7 +13,7 @@ namespace ObjectsAsStates
             oas.Initialize();
 
             oas.DoSomething();
-            oas.DoSomethingElse();
+            oas.DoSomethingElse(42);
             oas.DoSomething();
 
             Console.WriteLine("All done! Joy to the world!");
@@ -23,6 +23,8 @@ namespace ObjectsAsStates
 
     public class ObjectsAsStates
     {
+        // All state object, and all trigger objects, need to be instantiated before we
+        // can use them when Configuring the state machine.
         private readonly ObjectAsState _initialState = new ObjectAsState();
         private readonly ObjectAsState _someState = new ObjectAsState();
         private readonly AnotherObjectAsState _anotherState = new AnotherObjectAsState();
@@ -32,16 +34,21 @@ namespace ObjectsAsStates
 
         private StateMachine<StateClass, TriggerClass> _stateMachine;
 
+        // Public method to make the state machine do something
         public void DoSomething()
         {
             _stateMachine.Fire(_someTrigger);
         }
 
-        public void DoSomethingElse()
+        // Public method to make the state machine do something else (sic).
+        public void DoSomethingElse(int payload)
         {
+            _anotherTrigger.Payload = payload;
             _stateMachine.Fire(_anotherTrigger);
         }
 
+        // Use this to initialize the state machine to a know state
+        // All objects needed for the states and transitions must be instantied before use. 
         internal void Initialize()
         {
             _stateMachine = new StateMachine<StateClass, TriggerClass>(_initialState);
@@ -64,7 +71,8 @@ namespace ObjectsAsStates
 
     public class ObjectAsState : StateClass
     {
-        // This is a class that you can use as a state, if you so fancy.
+        // This is a class that you can use as a state.
+        // Use it as any other class.
     }
     public class AnotherObjectAsState : StateClass
     {
@@ -81,5 +89,7 @@ namespace ObjectsAsStates
     public class AnotherObjectAsTrigger : TriggerClass
     {
         // This is a class that you can use as a state, if you so fancy.
+        // It can have payload, if needed
+        public int Payload { get; internal set; }
     }
 }
