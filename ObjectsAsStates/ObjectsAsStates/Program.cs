@@ -25,12 +25,12 @@ namespace ObjectsAsStates
     {
         private readonly ObjectAsState _initialState = new ObjectAsState();
         private readonly ObjectAsState _someState = new ObjectAsState();
-        private readonly ObjectAsState _anotherState = new ObjectAsState();
+        private readonly AnotherObjectAsState _anotherState = new AnotherObjectAsState();
 
         private readonly ObjectAsTrigger _someTrigger = new ObjectAsTrigger();
-        private readonly ObjectAsTrigger _anotherTrigger = new ObjectAsTrigger();
+        private readonly AnotherObjectAsTrigger _anotherTrigger = new AnotherObjectAsTrigger();
 
-        private StateMachine<ObjectAsState, ObjectAsTrigger> _stateMachine;
+        private StateMachine<StateClass, TriggerClass> _stateMachine;
 
         public void DoSomething()
         {
@@ -44,7 +44,7 @@ namespace ObjectsAsStates
 
         internal void Initialize()
         {
-            _stateMachine = new StateMachine<ObjectAsState, ObjectAsTrigger>(_initialState);
+            _stateMachine = new StateMachine<StateClass, TriggerClass>(_initialState);
 
             _stateMachine.Configure(_initialState)
                 .Permit(_someTrigger, _someState);
@@ -59,12 +59,26 @@ namespace ObjectsAsStates
         }
     }
 
-    public class ObjectAsState
+    public abstract class StateClass
+    { }
+
+    public class ObjectAsState : StateClass
+    {
+        // This is a class that you can use as a state, if you so fancy.
+    }
+    public class AnotherObjectAsState : StateClass
     {
         // This is a class that you can use as a state, if you so fancy.
     }
 
-    public class ObjectAsTrigger
+
+    public abstract class TriggerClass
+    { }
+    public class ObjectAsTrigger :  TriggerClass
+    {
+        // This is a class that you can use as a state, if you so fancy.
+    }
+    public class AnotherObjectAsTrigger : TriggerClass
     {
         // This is a class that you can use as a state, if you so fancy.
     }
