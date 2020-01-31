@@ -108,12 +108,12 @@ namespace ObjectsAsStates
 
     public class ObjectAsTrigger :  TriggerClass
     {
-        // This is a class that you can use as a state, if you so fancy.
+        // This is a class that you can use as a trigger, if you so fancy.
     }
 
     public class AnotherObjectAsTrigger : TriggerClass
     {
-        // This is a class that you can use as a state, if you so fancy.
+        // This is a class that you can use as a trigger, if you so fancy.
         // It can have payload, if needed
         public int Payload { get; internal set; }
     }
